@@ -1,0 +1,36 @@
+desc:LUT Distortion (Gradual Drive, Amplitude Indexed)
+slider1:1<0,10,0.1>Drive
+slider2:1<0,2,0.01>Output
+@init
+tblsz = 1024;
+i = 0;
+// Build tanh-like LUT for range -1..1
+loop(tblsz,
+  x = (i/(tblsz-1))*2 - 1;  // -1..1
+  ex = exp(6*x);
+  tbl[i] = (ex - 1) / (ex + 1);
+  i += 1;
+);
+@sample
+inL = spl0;
+inR = spl1;
+// Apply drive to input (like static version)
+inL *= slider1;
+inR *= slider1;
+// Clamp to [-1,1]
+inL = max(-1, min(1, inL));
+inR = max(-1, min(1, inR));
+// Map clamped signal directly to LUT index (full range -1..1)
+idxL = (inL + 1) * 0.5 * (tblsz - 1);
+idxR = (inR + 1) * 0.5 * (tblsz - 1);
+// Integer + fractional for interpolation
+iL = floor(idxL);
+iR = floor(idxR);
+fL = idxL - iL;
+fR = idxR - iR;
+// Interpolate LUT
+shapedL = tbl[iL] + fL * (tbl[iL+1] - tbl[iL]);
+shapedR = tbl[iR] + fR * (tbl[iR+1] - tbl[iR]);
+// Output
+spl0 = shapedL * slider2;
+spl1 = shapedR * slider2;

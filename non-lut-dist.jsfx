@@ -1,0 +1,19 @@
+desc:Static Waveshaper Test
+slider1:1<0,10,0.1>Drive
+slider2:1<0,2,0.01>Output
+
+@sample
+// apply drive
+inL = spl0 * slider1;
+inR = spl1 * slider1;
+// clamp
+inL = max(-1, min(1, inL));
+inR = max(-1, min(1, inR));
+// static waveshaping - inline tanh approximation
+exL = exp(2 * inL * 3);
+outL = (exL - 1) / (exL + 1);
+exR = exp(2 * inR * 3);
+outR = (exR - 1) / (exR + 1);
+// output
+spl0 = outL * slider2;
+spl1 = outR * slider2;
