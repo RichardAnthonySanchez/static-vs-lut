@@ -12,6 +12,8 @@ loop(tblsz,
   i += 1;
 );
 @sample
+n = 1; // To test load, increase this value
+loop(n ,
 inL = spl0;
 inR = spl1;
 // Apply drive to input (like static version)
@@ -34,3 +36,4 @@ shapedR = tbl[iR] + fR * (tbl[iR+1] - tbl[iR]);
 // Output
 spl0 = shapedL * slider2;
 spl1 = shapedR * slider2;
+);

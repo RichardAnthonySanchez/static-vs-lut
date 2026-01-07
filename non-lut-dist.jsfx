@@ -1,4 +1,4 @@
-desc:Static Waveshaper Test
+ desc:Static Waveshaper Test
 slider1:1<0,10,0.1>Drive
 slider2:1<0,2,0.01>Output
 
@@ -8,6 +8,8 @@ sample_counter = 0;         // Current running count
 samples_last_second = 0;    // This will show your "Results"
 
 @sample
+n = 1; // To test load, increase this value
+loop(n,
 // apply drive
 inL = spl0 * slider1;
 inR = spl1 * slider1;
@@ -22,6 +24,7 @@ outR = (exR - 1) / (exR + 1);
 // output
 spl0 = outL * slider2;
 spl1 = outR * slider2;
+);
 // 2. INCREMENT COUNTER
 sample_counter += 1;
 
