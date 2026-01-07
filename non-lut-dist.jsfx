@@ -1,6 +1,7 @@
  desc:Static Waveshaper Test
 slider1:1<0,10,0.1>Drive
 slider2:1<0,2,0.01>Output
+slider3:1<1,50,1>Test Load
 
 @init
 last_time = time_precise(); // Initialize system clock
@@ -8,7 +9,7 @@ sample_counter = 0;         // Current running count
 samples_last_second = 0;    // This will show your "Results"
 
 @sample
-n = 1; // To test load, increase this value
+n = slider3; // To test load, increase this value
 loop(n,
 // apply drive
 inL = spl0 * slider1;
